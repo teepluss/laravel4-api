@@ -1,6 +1,8 @@
 <?php namespace Teepluss\Api;
 
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 
 class Api {
 
@@ -58,12 +60,25 @@ class Api {
         505 => '505 HTTP Version Not Supported'
     );
 
+    /**
+     * Create API response.
+     *
+     * @param  mixed   $messages
+     * @param  integer $code
+     * @return string
+     */
 	public function createResponse($messages, $code = 200)
 	{
 		return  $this->make($messages, $code);
 	}
 
-
+    /**
+     * Make json data format.
+     *
+     * @param  mixed   $data
+     * @param  integer $code
+     * @return string
+     */
 	public function make($data, $code)
 	{
 		// Status returned.
@@ -98,5 +113,45 @@ class Api {
 		// Always return 200 header.
 		return Response::json($response, 200);
 	}
+
+    /**
+     * Call internal URI with parameters.
+     *
+     * @param  string $uri
+     * @param  string $request
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function call($uri, $request, $parameters = array())
+    {
+        $uri = '/'.ltrim($uri, '/');
+
+        // Parameters for GET, POST
+        $parameters = ($parameters) ? current($parameters) : array();
+
+        // Make request.
+        $request = Request::create($uri, strtoupper($request));
+
+        // Replacce input with parameters.
+        Request::replace($parameters);
+
+        // Dispatch.
+        return Route::dispatch($request)->getContent();
+    }
+
+    /**
+     * Alias call.
+     *
+     * @return call
+     */
+    public function __call($method, $parameters = array())
+    {
+        if (in_array($method, array('get', 'post', 'put', 'delete')))
+        {
+            $uri = array_shift($parameters);
+
+            return $this->call($uri, $method, $parameters);
+        }
+    }
 
 }
