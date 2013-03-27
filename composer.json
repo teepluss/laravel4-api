@@ -1,0 +1,29 @@
+{
+    "name": "teepluss/api",
+    "description": "Laravel Restful Response Format",
+    "keywords": ["laravel", "laravel4", "restful", "api"],
+    "homepage": "https://github.com/teepluss/laravel-restful.git",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Teepluss",
+            "email": "admin@laravel.in.th"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "psr-0": {
+            "Teepluss\\Api": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
