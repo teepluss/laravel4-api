@@ -130,7 +130,7 @@ class Api {
         $parameters = ($parameters) ? current($parameters) : array();
 
         // Make request.
-        $request = Request::create($uri, strtoupper($request));
+        $request = Request::create($uri, strtoupper($request), $parameters);
 
         // Replacce input with parameters.
         Request::replace($parameters);
