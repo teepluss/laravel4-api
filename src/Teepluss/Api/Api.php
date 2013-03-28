@@ -99,7 +99,7 @@ class Api {
 		);
 
 		// Merge if data has anything else.
-		if (isset($data['data']))
+		if (is_array($data) and isset($data['data']))
 		{
 			$response = array_merge($response, $data);
 		}
