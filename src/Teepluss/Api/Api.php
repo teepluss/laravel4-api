@@ -140,7 +140,7 @@ class Api {
     }
 
     /**
-     * Alias call.
+     * Alias call method.
      *
      * @return call
      */
