@@ -69,17 +69,30 @@ class Api {
      */
 	public function createResponse($messages, $code = 200)
 	{
-		return  $this->make($messages, $code);
+		return $this->make($messages, $code);
 	}
+
+    /**
+     * Custom API response.
+     *
+     * @param  mixed   $messages
+     * @param  integer $code
+     * @return string
+     */
+    public function deviseResponse($messages, $code = 200)
+    {
+        return $this->make($messages, $code, true);
+    }
 
     /**
      * Make json data format.
      *
      * @param  mixed   $data
      * @param  integer $code
+     * @param  boolean $overwrite
      * @return string
      */
-	public function make($data, $code)
+	public function make($data, $code, $overwrite = false)
 	{
 		// Status returned.
 		$status = (preg_match('/^2/', $code)) ? 'success' : 'error';
@@ -90,25 +103,32 @@ class Api {
 			$data = $data->toArray();
 		}
 
-		// Available data response.
-		$response = array(
-			'status'     => $status,
-			'data'       => $data,
-			'pagination' => null,
-			'message'    => $this->statuses[$code]
-		);
+        if ($overwrite === true)
+        {
+            $response = $data;
+        }
+        else
+        {
+    		// Available data response.
+    		$response = array(
+    			'status'     => $status,
+    			'data'       => $data,
+    			'pagination' => null,
+    			'message'    => $this->statuses[$code]
+    		);
 
-		// Merge if data has anything else.
-		if (is_array($data) and isset($data['data']))
-		{
-			$response = array_merge($response, $data);
-		}
+    		// Merge if data has anything else.
+    		if (is_array($data) and isset($data['data']))
+    		{
+    			$response = array_merge($response, $data);
+    		}
 
-		// Remove empty array.
-		$response = array_filter($response, function($value)
-		{
-			return ! is_null($value);
-		});
+    		// Remove empty array.
+    		$response = array_filter($response, function($value)
+    		{
+    			return ! is_null($value);
+    		});
+        }
 
 		// Always return 200 header.
 		return Response::json($response, 200);
@@ -135,7 +155,6 @@ class Api {
         // Replacce input with parameters.
         Request::replace($parameters);
 
-        // Dispatch.
         return Route::dispatch($request)->getContent();
     }
 
