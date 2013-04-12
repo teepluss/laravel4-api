@@ -142,7 +142,7 @@ class Api {
      * @param  array  $parameters
      * @return mixed
      */
-    public function call($uri, $request, $parameters = array())
+    public function invoke($uri, $request, $parameters = array())
     {
         $uri = '/'.ltrim($uri, '/');
 
@@ -161,7 +161,7 @@ class Api {
     /**
      * Alias call method.
      *
-     * @return call
+     * @return mixed
      */
     public function __call($method, $parameters = array())
     {
@@ -169,7 +169,7 @@ class Api {
         {
             $uri = array_shift($parameters);
 
-            return $this->call($uri, $method, $parameters);
+            return $this->invoke($uri, $method, $parameters);
         }
     }
 
