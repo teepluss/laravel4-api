@@ -1,8 +1,9 @@
 <?php namespace Teepluss\Api;
 
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Api {
 
@@ -146,16 +147,20 @@ class Api {
     {
         $uri = '/'.ltrim($uri, '/');
 
-        // Parameters for GET, POST
-        $parameters = ($parameters) ? current($parameters) : array();
+        try
+        {
+            // Parameters for GET, POST
+            $parameters = ($parameters) ? current($parameters) : array();
 
-        // Make request.
-        $request = Request::create($uri, strtoupper($request), $parameters);
+            // Make request.
+            $request = Request::create($uri, strtoupper($request), $parameters);
 
-        // Replacce input with parameters.
-        Request::replace($parameters);
+            // Replacce input with parameters.
+            Request::replace($parameters);
 
-        return Route::dispatch($request)->getContent();
+            return Route::dispatch($request)->getContent();
+        }
+        catch (NotFoundHttpException $e) { }
     }
 
     /**
