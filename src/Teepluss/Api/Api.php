@@ -1,11 +1,25 @@
 <?php namespace Teepluss\Api;
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Routing\Router;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Api {
+
+    /**
+     * Router
+     *
+     * @var \Illuminate\Routing\Router
+     */
+    protected $router;
+
+    /**
+     * Request
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
 
 	/**
      * @var array HTTP response codes and messages
@@ -60,6 +74,19 @@ class Api {
         504 => '504 Gateway Timeout',
         505 => '505 HTTP Version Not Supported'
     );
+
+    /**
+     * Instance API.
+     *
+     * @param Router  $router
+     * @param Request $request
+     */
+    public function __construct(Router $router, Request $request)
+    {
+        $this->router = $router;
+
+        $this->request = $request;
+    }
 
     /**
      * Create API response.
@@ -145,20 +172,32 @@ class Api {
      */
     public function invoke($uri, $request, $parameters = array())
     {
+        // Request URI.
         $uri = '/'.ltrim($uri, '/');
+
+        // Parameters for GET, POST
+        $parameters = ($parameters) ? current($parameters) : array();
 
         try
         {
-            // Parameters for GET, POST
-            $parameters = ($parameters) ? current($parameters) : array();
+            // store the original request data and route
+            $originalInput = $this->request->input();
+            $originalRoute = $this->router->getCurrentRoute();
 
-            // Make request.
-            $request = Request::create($uri, strtoupper($request), $parameters);
+            // create a new request to the API resource
+            $request = $this->request->create($uri, strtoupper($request), $parameters);
 
-            // Replacce input with parameters.
-            Request::replace($parameters);
+            // replace the request input...
+            $this->request->replace($request->input());
 
-            return Route::dispatch($request)->getOriginalContent();
+            // ...and dispatch this request instance to the router
+            $response = $this->router->dispatch($request)->getOriginalContent();
+
+            // replace the request input and route back to the original state
+            $this->request->replace($originalInput);
+            $this->router->setCurrentRoute($originalRoute);
+
+            return $response;
         }
         catch (NotFoundHttpException $e) { }
     }

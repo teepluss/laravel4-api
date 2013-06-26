@@ -25,7 +25,7 @@ class ApiServiceProvider extends ServiceProvider {
 	{
 		$this->app['api'] = $this->app->share(function($app)
 		{
-			return new Api;
+			return new Api($app['router'], $app['request']);
 		});
 	}
 
