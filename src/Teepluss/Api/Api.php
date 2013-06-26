@@ -182,6 +182,7 @@ class Api {
         {
             // store the original request data and route
             $originalInput = $this->request->input();
+
             $originalRoute = $this->router->getCurrentRoute();
 
             // create a new request to the API resource
@@ -190,8 +191,16 @@ class Api {
             // replace the request input...
             $this->request->replace($request->input());
 
-            // ...and dispatch this request instance to the router
-            $response = $this->router->dispatch($request)->getOriginalContent();
+            $dispatch = $this->router->dispatch($request);
+
+            if (method_exists($dispatch, 'getOriginalContent'))
+            {
+                $response = $dispatch->getOriginalContent();
+            }
+            else
+            {
+                $response = $dispatch->getContent();
+            }
 
             // replace the request input and route back to the original state
             $this->request->replace($originalInput);
