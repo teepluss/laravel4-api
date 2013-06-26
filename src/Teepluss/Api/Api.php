@@ -158,7 +158,7 @@ class Api {
             // Replacce input with parameters.
             Request::replace($parameters);
 
-            return Route::dispatch($request)->getContent();
+            return Route::dispatch($request)->getOriginalContent();
         }
         catch (NotFoundHttpException $e) { }
     }
