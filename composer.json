@@ -2,7 +2,7 @@
     "name": "teepluss/api",
     "description": "Laravel Restful Response Format",
     "keywords": ["laravel", "laravel4", "restful", "api"],
-    "homepage": "https://github.com/teepluss/laravel-restful.git",
+    "homepage": "https://github.com/teepluss/laravel4-api",
     "type": "library",
     "license": "MIT",
     "authors": [
