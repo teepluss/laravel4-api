@@ -11,6 +11,11 @@ class ApiServiceProvider extends ServiceProvider {
 	 */
 	protected $defer = false;
 
+	/**
+	 * Bootstrap classes for packages.
+	 *
+	 * @return void
+	 */
 	public function boot()
 	{
 		$this->package('teepluss/api');
