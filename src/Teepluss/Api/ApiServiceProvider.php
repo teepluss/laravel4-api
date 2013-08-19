@@ -1,5 +1,6 @@
 <?php namespace Teepluss\Api;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class ApiServiceProvider extends ServiceProvider {
@@ -21,11 +22,8 @@ class ApiServiceProvider extends ServiceProvider {
 		$this->package('teepluss/api');
 
 		// Auto create app alias with boot method.
-		$this->app->booting(function()
-		{
-			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-		 	$loader->alias('API', 'Teepluss\Api\Facades\Api');
-		});
+		$loader = AliasLoader::getInstance();
+		$loader->alias('API', 'Teepluss\Api\Facades\Api');
 	}
 
 	/**
