@@ -138,12 +138,13 @@ class Api {
         else
         {
     		// Available data response.
-    		$response = array(
-    			'status'     => $status,
-    			'data'       => $data,
-    			'pagination' => null,
-    			'message'    => $this->statuses[$code]
-    		);
+            $response = array(
+                'status'     => $status,
+                'code'       => $code,
+                'message'    => $this->statuses[$code],
+                'data'       => $data,
+                'pagination' => null
+            );
 
     		// Merge if data has anything else.
     		if (is_array($data) and isset($data['data']))
