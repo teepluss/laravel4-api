@@ -224,6 +224,15 @@ class Api {
                 $response = $dispatch->getContent();
             }
 
+            // Decode json content.
+            if ($dispatch->headers->get('content-type') == 'application/json')
+            {
+                if (function_exists('json_encode'))
+                {
+                    $response = json_decode($response, true);
+                }
+            }
+
             // replace the request input and route back to the original state
             $this->request->replace($originalInput);
             $this->router->setCurrentRoute($originalRoute);
