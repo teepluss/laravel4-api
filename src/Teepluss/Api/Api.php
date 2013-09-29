@@ -229,10 +229,10 @@ class Api {
     /**
      * Invoke with remote uri.
      *
-     * @param  string $uri        [
-     * @param  string $method     [
-     * @param  array  $parameters [
-     * @return mixed             [
+     * @param  string $uri
+     * @param  string $method
+     * @param  array  $parameters
+     * @return mixed
      */
     public function invokeRemote($uri, $method, $parameters = array())
     {
