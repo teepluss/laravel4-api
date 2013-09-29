@@ -22,6 +22,13 @@ class Api {
      */
     protected $request;
 
+    /**
+     * Remote client.
+     *
+     * @var \Guzzle\Http\Client
+     */
+    protected $remoteClient;
+
 	/**
      * @var array HTTP response codes and messages
      */
