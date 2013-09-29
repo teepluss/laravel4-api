@@ -1,7 +1,8 @@
 <?php namespace Teepluss\Api;
 
-use Illuminate\Routing\Router;
+use Guzzle\Http\Client;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -80,12 +81,15 @@ class Api {
      *
      * @param Router  $router
      * @param Request $request
+     * @param Client  $remote
      */
-    public function __construct(Router $router, Request $request)
+    public function __construct(Router $router, Request $request, Client $remoteClient)
     {
         $this->router = $router;
 
         $this->request = $request;
+
+        $this->remoteClient = $remoteClient;
     }
 
     /**
@@ -164,14 +168,24 @@ class Api {
 	}
 
     /**
+     * Remote client for http request.
+     *
+     * @return Client
+     */
+    public function getRemoteClient()
+    {
+        return $this->remoteClient;
+    }
+
+    /**
      * Call internal URI with parameters.
      *
      * @param  string $uri
-     * @param  string $request
+     * @param  string $method
      * @param  array  $parameters
      * @return mixed
      */
-    public function invoke($uri, $request, $parameters = array())
+    public function invoke($uri, $method, $parameters = array())
     {
         // Request URI.
         $uri = '/'.ltrim($uri, '/');
@@ -187,7 +201,7 @@ class Api {
             $originalRoute = $this->router->getCurrentRoute();
 
             // create a new request to the API resource
-            $request = $this->request->create($uri, strtoupper($request), $parameters);
+            $request = $this->request->create($uri, strtoupper($method), $parameters);
 
             // replace the request input...
             $this->request->replace($request->input());
@@ -213,6 +227,26 @@ class Api {
     }
 
     /**
+     * Invoke with remote uri.
+     *
+     * @param  string $uri        [
+     * @param  string $method     [
+     * @param  array  $parameters [
+     * @return mixed             [
+     */
+    public function invokeRemote($uri, $method, $parameters = array())
+    {
+        $remoteClient = $this->getRemoteClient();
+
+        // Parameters for GET, POST
+        $parameters = ($parameters) ? current($parameters) : array();
+
+        $request = $remoteClient->createRequest($method, $uri, array(), $parameters, array());
+
+        return $request->send()->getBody();
+    }
+
+    /**
      * Alias call method.
      *
      * @return mixed
@@ -222,6 +256,11 @@ class Api {
         if (in_array($method, array('get', 'post', 'put', 'delete')))
         {
             $uri = array_shift($parameters);
+
+            if (preg_match('/^http(s)?/', $uri))
+            {
+                return $this->invokeRemote($uri, $method, $parameters);
+            }
 
             return $this->invoke($uri, $method, $parameters);
         }

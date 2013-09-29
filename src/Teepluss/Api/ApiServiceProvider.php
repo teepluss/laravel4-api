@@ -1,5 +1,6 @@
 <?php namespace Teepluss\Api;
 
+use Guzzle\Http\Client;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,7 +36,9 @@ class ApiServiceProvider extends ServiceProvider {
 	{
 		$this->app['api'] = $this->app->share(function($app)
 		{
-			return new Api($app['router'], $app['request']);
+			$remoteClient = new Client();
+
+			return new Api($app['router'], $app['request'], $remoteClient);
 		});
 	}
 
