@@ -67,7 +67,11 @@ API::put('user/1', array('title' => 'Changed'));
 
 // DELETE Request.
 API::delete('user/1');
+
+// Also using remote request without changing code.
+API::post('http://api.github.com', array('username' => 'teepluss'));
 ~~~
+>> Remote request using [Guzzle](http://guzzlephp.org/) as an adapter.
 
 ## Support or Contact
 
