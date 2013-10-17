@@ -3,10 +3,18 @@
 use Guzzle\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Api {
+
+    /**
+     * Repository config.
+     *
+     * @var \Illuminate\Config\Repository
+     */
+    protected $config;
 
     /**
      * Router
@@ -29,10 +37,10 @@ class Api {
      */
     protected $remoteClient;
 
-	/**
+    /**
      * @var array HTTP response codes and messages
      */
-	protected $statuses = array(
+    protected $statuses = array(
         //Informational 1xx
         100 => '100 Continue',
         101 => '101 Switching Protocols',
@@ -86,12 +94,15 @@ class Api {
     /**
      * Instance API.
      *
-     * @param Router  $router
-     * @param Request $request
-     * @param Client  $remote
+     * @param Repository $config  $router
+     * @param Router     $router
+     * @param Request    $request
+     * @param Client     $remote
      */
-    public function __construct(Router $router, Request $request, Client $remoteClient)
+    public function __construct(Repository $config, Router $router, Request $request, Client $remoteClient)
     {
+        $this->config = $config->get('api::config');
+
         $this->router = $router;
 
         $this->request = $request;
@@ -106,10 +117,10 @@ class Api {
      * @param  integer $code
      * @return string
      */
-	public function createResponse($messages, $code = 200)
-	{
-		return $this->make($messages, $code);
-	}
+    public function createResponse($messages, $code = 200)
+    {
+        return $this->make($messages, $code);
+    }
 
     /**
      * Custom API response.
@@ -131,48 +142,67 @@ class Api {
      * @param  boolean $overwrite
      * @return string
      */
-	public function make($data, $code, $overwrite = false)
-	{
-		// Status returned.
-		$status = (preg_match('/^2/', $code)) ? 'success' : 'error';
+    public function make($data, $code, $overwrite = false)
+    {
+        // Status returned.
+        $status = (preg_match('/^(2|3)/', $code)) ? 'success' : 'error';
 
-		// Change object to array.
-		if (is_object($data))
-		{
-			$data = $data->toArray();
-		}
+        // Change object to array.
+        if (is_object($data))
+        {
+            $data = $data->toArray();
+        }
 
+        // Overwrite response format.
         if ($overwrite === true)
         {
             $response = $data;
         }
         else
         {
-    		// Available data response.
+            $message = $this->statuses[$code];
+
+            // Custom return message.
+            if (isset($data['message']))
+            {
+                $message = $data['message'];
+
+                unset($data['message']);
+            }
+
+            // Available data response.
             $response = array(
                 'status'     => $status,
                 'code'       => $code,
-                'message'    => $this->statuses[$code],
+                'message'    => $message,
                 'data'       => $data,
                 'pagination' => null
             );
 
-    		// Merge if data has anything else.
-    		if (is_array($data) and isset($data['data']))
-    		{
-    			$response = array_merge($response, $data);
-    		}
+            // Merge if data has anything else.
+            if (is_array($data) and isset($data['data']))
+            {
+                $response = array_merge($response, $data);
+            }
 
-    		// Remove empty array.
-    		$response = array_filter($response, function($value)
-    		{
-    			return ! is_null($value);
-    		});
+            // Remove empty array.
+            $response = array_filter($response, function($value)
+            {
+                return ! is_null($value);
+            });
+
+            // Remove empty data.
+            if (empty($response['data']))
+            {
+                unset($response['data']);
+            }
         }
 
-		// Always return 200 header.
-		return Response::json($response, 200);
-	}
+        // Header response.
+        $header = ($this->config['httpResponse']) ? $code : 200;
+
+        return Response::json($response, $header);
+    }
 
     /**
      * Remote client for http request.

@@ -38,7 +38,7 @@ class ApiServiceProvider extends ServiceProvider {
 		{
 			$remoteClient = new Client();
 
-			return new Api($app['router'], $app['request'], $remoteClient);
+			return new Api($app['config'], $app['router'], $app['request'], $remoteClient);
 		});
 	}
 
