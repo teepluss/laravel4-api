@@ -153,6 +153,12 @@ class Api {
             $data = $data->toArray();
         }
 
+        // Data as a string.
+        if (is_string($data))
+        {
+            $data = array('message' => $data);
+        }
+
         // Overwrite response format.
         if ($overwrite === true)
         {
