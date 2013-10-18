@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class Api extends Facade {
+class API extends Facade {
 
     /**
      * Get the registered name of the component.

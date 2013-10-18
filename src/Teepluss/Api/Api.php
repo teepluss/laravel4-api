@@ -186,7 +186,7 @@ class Api {
             );
 
             // Merge if data has anything else.
-            if (is_array($data) and isset($data['data']))
+            if (isset($data['data']))
             {
                 $response = array_merge($response, $data);
             }
@@ -263,13 +263,9 @@ class Api {
             // Decode json content.
             if ($dispatch->headers->get('content-type') == 'application/json')
             {
-                if (function_exists('json_encode'))
+                if (function_exists('json_decode') and is_string($response))
                 {
-                    if (function_exists('json_encode')) {
-                        if (is_string($response)) {
-                            $response = json_decode($response, true);
-                        }
-                    }
+                    $response = json_decode($response, true);
                 }
             }
 

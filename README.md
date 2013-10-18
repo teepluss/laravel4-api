@@ -25,6 +25,22 @@ Once Theme is installed you need to register the service provider with the appli
 )
 ~~~
 
+API also ships with a facade which provides the static syntax for creating collections. You can register the facade in the `aliases` key of your `app/config/app.php` file.
+
+~~~
+'aliases' => array(
+
+    'API' => 'Teepluss\Api\Facades\API'
+
+)
+~~~
+
+Publish config using artisan CLI.
+
+~~~
+php artisan config:publish teepluss/api
+~~~
+
 ## Usage
 
 Create reponses format for RESTful.
