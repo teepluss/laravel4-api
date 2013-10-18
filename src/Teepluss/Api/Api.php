@@ -265,7 +265,11 @@ class Api {
             {
                 if (function_exists('json_encode'))
                 {
-                    $response = json_decode($response, true);
+                    if (function_exists('json_encode')) {
+                        if (is_string($response)) {
+                            $response = json_decode($response, true);
+                        }
+                    }
                 }
             }
 
