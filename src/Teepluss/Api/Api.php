@@ -295,7 +295,7 @@ class Api {
 
         $request = $remoteClient->createRequest($method, $uri, array(), $parameters, array());
 
-        return $request->send()->getBody();
+        return (string) $request->send()->getBody();
     }
 
     /**
