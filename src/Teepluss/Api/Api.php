@@ -293,9 +293,25 @@ class Api {
         // Parameters for GET, POST
         $parameters = ($parameters) ? current($parameters) : array();
 
+        // Make request.
         $request = $remoteClient->createRequest($method, $uri, array(), $parameters, array());
 
-        return (string) $request->send()->getBody();
+        // Send request.
+        $response = $request->send();
+
+        // Body responsed.
+        $body = (string) $response->getBody();
+
+        // Decode json content.
+        if ($response->getContentType() == 'application/json')
+        {
+            if (function_exists('json_decode') and is_string($body))
+            {
+                $body = json_decode($body, true);
+            }
+        }
+
+        return $body;
     }
 
     /**
