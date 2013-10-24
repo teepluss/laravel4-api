@@ -145,7 +145,7 @@ class Api {
     public function make($data, $code, $overwrite = false)
     {
         // Status returned.
-        $status = (preg_match('/^(2|3)/', $code)) ? 'success' : 'error';
+        $status = (preg_match('/^(1|2|3)/', $code)) ? 'success' : 'error';
 
         // Change object to array.
         if (is_object($data))
