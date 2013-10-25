@@ -242,6 +242,10 @@ class Api {
             $originalInput = $this->request->input();
 
             $originalRoute = $this->router->getCurrentRoute();
+            
+            if (!($originalRoute instanceof Route)) {
+                $originalRoute = new Route(new \Symfony\Component\HttpFoundation\Request());
+            }
 
             // create a new request to the API resource
             $request = $this->request->create($uri, strtoupper($method), $parameters);
