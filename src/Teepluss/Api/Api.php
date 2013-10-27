@@ -238,12 +238,15 @@ class Api {
 
         try
         {
-            // store the original request data and route
+            // Store the original request data and route
             $originalInput = $this->request->input();
 
+            // Original route.
             $originalRoute = $this->router->getCurrentRoute();
-            
-            if (!($originalRoute instanceof Route)) {
+
+            // Masking route to allow testing with PHPUnit.
+            if ( ! $originalRoute instanceof Route)
+            {
                 $originalRoute = new Route(new \Symfony\Component\HttpFoundation\Request());
             }
 
