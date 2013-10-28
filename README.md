@@ -5,7 +5,7 @@ API is a useful to create response format and testing request.
 ### Installation
 
 - [API on Packagist](https://packagist.org/packages/teepluss/api)
-- [API on GitHub](https://github.com/teepluss/laravel-restful)
+- [API on GitHub](https://github.com/teepluss/laravel4-api)
 
 To get the lastest version of Theme simply require it in your `composer.json` file.
 
