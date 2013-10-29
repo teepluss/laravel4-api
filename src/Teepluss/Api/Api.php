@@ -2,6 +2,7 @@
 
 use Guzzle\Http\Client;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\Response;
