@@ -1,6 +1,6 @@
 ## API Response for Laravel 4
 
-API is a useful to create response format and testing request.
+API is a useful to make internal request (HMVC).
 
 ### Installation
 
@@ -68,6 +68,7 @@ API::createResponse("User [$id] was not found.", 404);
 //Response deleted.
 API::createResponse(null, 204);
 ~~~
+>> For RESTful response recommended to use [Restable](https://github.com/teepluss/laravel4-restable) instead.
 
 Internal testing request.
 
