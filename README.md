@@ -94,4 +94,10 @@ API::post('http://api.github.com', array('username' => 'teepluss'));
 
 If you have some problem, Contact teepluss@gmail.com
 
-<a href='http://www.pledgie.com/campaigns/22201'><img alt='Click here to lend your support to: Donation and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/22201.png?skin_name=chrome' border='0' /></a>
+## Changes
+
+#### v1.0.0
+- Release first master version.
+
+
+[![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9GEC8J7FAG6JA)
