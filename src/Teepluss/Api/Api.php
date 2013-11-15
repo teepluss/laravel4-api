@@ -302,7 +302,7 @@ class Api {
         $parameters = ($parameters) ? current($parameters) : array();
 
         // Make request.
-        $request = $remoteClient->createRequest($method, $uri, array(), $parameters, array());
+        $request = call_user_func_array(array($remoteClient, $method), array($uri, $parameters));
 
         // Send request.
         $response = $request->send();
