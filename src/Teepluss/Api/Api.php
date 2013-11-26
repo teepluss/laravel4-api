@@ -232,10 +232,10 @@ class Api {
     public function invoke($uri, $method, $parameters = array())
     {
         // Request URI.
-        $uri = '/'.ltrim($uri, '/');
-
-        // Parameters for GET, POST
-        $parameters = ($parameters) ? current($parameters) : array();
+        if ( ! preg_match('/^http(s)?:/', $uri))
+        {
+            $uri = '/'.ltrim($uri, '/');
+        }
 
         try
         {
@@ -243,13 +243,13 @@ class Api {
             $originalInput = $this->request->input();
 
             // Original route.
-            $originalRoute = $this->router->getCurrentRoute();
+            //$originalRoute = $this->router->getCurrentRoute();
 
             // Masking route to allow testing with PHPUnit.
-            if ( ! $originalRoute instanceof Route)
-            {
-                $originalRoute = new Route(new \Symfony\Component\HttpFoundation\Request());
-            }
+            // if ( ! $originalRoute instanceof Route)
+            // {
+            //     $originalRoute = new Route(new \Symfony\Component\HttpFoundation\Request());
+            // }
 
             // create a new request to the API resource
             $request = $this->request->create($uri, strtoupper($method), $parameters);
@@ -279,11 +279,14 @@ class Api {
 
             // replace the request input and route back to the original state
             $this->request->replace($originalInput);
-            $this->router->setCurrentRoute($originalRoute);
+            //$this->router->setCurrentRoute($originalRoute);
 
             return $response;
         }
-        catch (NotFoundHttpException $e) { }
+        catch (NotFoundHttpException $e)
+        {
+            sd($e->getMessage());
+        }
     }
 
     /**
@@ -297,9 +300,6 @@ class Api {
     public function invokeRemote($uri, $method, $parameters = array())
     {
         $remoteClient = $this->getRemoteClient();
-
-        // Parameters for GET, POST
-        $parameters = ($parameters) ? current($parameters) : array();
 
         // Make request.
         $request = call_user_func_array(array($remoteClient, $method), array($uri, null, $parameters));
@@ -332,6 +332,8 @@ class Api {
         if (in_array($method, array('get', 'post', 'put', 'delete')))
         {
             $uri = array_shift($parameters);
+
+            $parameters = current($parameters);
 
             if (preg_match('/^http(s)?/', $uri))
             {

@@ -85,8 +85,17 @@ API::put('user/1', array('title' => 'Changed'));
 // DELETE Request.
 API::delete('user/1');
 
+// Internal request with domain route.
+API::invoke('http://api.domain.com', 'post', array('param' => 1))
+
 // You can make remote request without changing code also.
 API::post('http://api.github.com', array('username' => 'teepluss'));
+
+// Request remote with invokeRemote.
+API::invokeRemote('http://api.github.com', 'post', array('username' => 'teepluss'));
+
+// Get Guzzle to use other features.
+$guzzle = API::getRemoteClient();
 ~~~
 >> Remote request using [Guzzle](http://guzzlephp.org/) as an adapter.
 
