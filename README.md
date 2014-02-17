@@ -43,7 +43,7 @@ php artisan config:publish teepluss/api
 
 ## Usage
 
-Create reponses format for RESTful.
+### Create reponses format for RESTful.
 
 ~~~php
 // Response entries.
@@ -70,7 +70,7 @@ API::createResponse(null, 204);
 ~~~
 >> For RESTful response recommended to use [Restable](https://github.com/teepluss/laravel4-restable) instead.
 
-Internal testing request.
+### Internal testing request.
 
 ~~~php
 // GET Request.
@@ -103,10 +103,27 @@ $guzzle = API::getRemoteClient();
 
 If you have some problem, Contact teepluss@gmail.com
 
+### Calling via artisan CLI.
+
+~~~php
+// Internal GET.
+$ php artisan api:call --request GET /some/route?param=value
+
+// Internal POST.
+$ php artisan api:call --request POST /some/form --data "name=Tee"
+
+// Remote request.
+$ php artisan api:call --request GET http://google.com --remote
+~~~
+>> also work with DELETE, PATCH, HEAD
+
 ## Changes
 
 #### v1.0.0
 - Release first master version.
+
+#### v1.0.1
+- Add artisan CLI.
 
 
 [![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9GEC8J7FAG6JA)
