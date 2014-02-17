@@ -1,6 +1,6 @@
 ## Laravel HMVC.
 
-API is a useful to make internal request (HMVC).
+API is a tool for making internal request (HMVC).
 
 ### Installation
 
