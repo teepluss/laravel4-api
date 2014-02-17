@@ -1,4 +1,4 @@
-## API Response for Laravel 4
+## Laravel HMVC.
 
 API is a useful to make internal request (HMVC).
 
