@@ -105,7 +105,7 @@ If you have some problem, Contact teepluss@gmail.com
 
 ### Calling via artisan CLI.
 
-~~~php
+~~~lisp
 // Internal GET.
 $ php artisan api:call --request GET /some/route?param=value
 
