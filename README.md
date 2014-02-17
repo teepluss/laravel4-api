@@ -121,11 +121,11 @@ API::createResponse(null, 204);
 
 ## Changes
 
-#### v1.0.0
-- Release first master version.
-
 #### v1.0.1
 - Add artisan CLI.
+
+#### v1.0.0
+- Release first master version.
 
 ## Support or Contact
 
