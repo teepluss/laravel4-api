@@ -48,13 +48,8 @@ class ApiCallCommand extends Command {
 	{
 		$url = $this->argument('url');
 
-		$invoke = 'invoke';
-
 		// Remote request.
-		if ($this->option('remote') === true)
-		{
-			$invoke = 'invokeRemote';
-		}
+		$invoke = ($this->option('remote') === true) ? 'invokeRemote' : 'invoke';
 
 		// Error on remote request.
 		if ($invoke == 'invokeRemote' and ! preg_match('/^http(s)?:/', $url))
