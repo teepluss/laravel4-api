@@ -43,32 +43,11 @@ php artisan config:publish teepluss/api
 
 ## Usage
 
-### Create reponses format for RESTful.
+API helping you to work with internal request.
 
-~~~php
-// Response entries.
-$users = User::all();
-API::createResponse($users);
-
-// Response entry.
-$user = User::find($id);
-return API::createResponse($user);
-
-// Response Laravel error.
-$errors = $validation->messages()->all(':message');
-return API::createResponse(compact('errors'), 400);
-
-// Response created data.
-$user = Url::create($data);
-return API::createResponse($user, 201);
-
-// Response 404.
-API::createResponse("User [$id] was not found.", 404);
-
-//Response deleted.
-API::createResponse(null, 204);
-~~~
->> For RESTful response recommended to use [Restable](https://github.com/teepluss/laravel4-restable) instead.
+- [Internal testing request](#internal-testing-request)
+- [Calling via artisan CLI](#calling-via-artisan-cli)
+- [Create reponses format for RESTful](#create-reponses-format-for-restful)
 
 ### Internal testing request.
 
@@ -99,10 +78,6 @@ $guzzle = API::getRemoteClient();
 ~~~
 >> Remote request using [Guzzle](http://guzzlephp.org/) as an adapter.
 
-## Support or Contact
-
-If you have some problem, Contact teepluss@gmail.com
-
 ### Calling via artisan CLI.
 
 ~~~lisp
@@ -117,6 +92,33 @@ $ php artisan api:call --request GET http://google.com --remote
 ~~~
 >> also work with DELETE, PATCH, HEAD
 
+### Create reponses format for RESTful.
+
+~~~php
+// Response entries.
+$users = User::all();
+API::createResponse($users);
+
+// Response entry.
+$user = User::find($id);
+return API::createResponse($user);
+
+// Response Laravel error.
+$errors = $validation->messages()->all(':message');
+return API::createResponse(compact('errors'), 400);
+
+// Response created data.
+$user = Url::create($data);
+return API::createResponse($user, 201);
+
+// Response 404.
+API::createResponse("User [$id] was not found.", 404);
+
+//Response deleted.
+API::createResponse(null, 204);
+~~~
+>> For RESTful response recommended to use [Restable](https://github.com/teepluss/laravel4-restable) instead.
+
 ## Changes
 
 #### v1.0.0
@@ -125,5 +127,8 @@ $ php artisan api:call --request GET http://google.com --remote
 #### v1.0.1
 - Add artisan CLI.
 
+## Support or Contact
+
+If you have some problem, Contact teepluss@gmail.com
 
 [![Support via PayPal](https://rawgithub.com/chris---/Donation-Badges/master/paypal.jpeg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9GEC8J7FAG6JA)
