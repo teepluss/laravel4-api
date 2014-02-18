@@ -88,7 +88,7 @@ $ php artisan api:call --request GET /some/route?param=value
 $ php artisan api:call --request POST /some/form --data "name=Tee"
 
 // Remote request.
-$ php artisan api:call --request GET http://google.com --remote
+$ php artisan api:call --request GET http://google.com
 ~~~
 >> also work with DELETE, PATCH, HEAD
 

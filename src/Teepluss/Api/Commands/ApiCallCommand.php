@@ -49,13 +49,7 @@ class ApiCallCommand extends Command {
 		$url = $this->argument('url');
 
 		// Remote request.
-		$invoke = ($this->option('remote') === true) ? 'invokeRemote' : 'invoke';
-
-		// Error on remote request.
-		if ($invoke == 'invokeRemote' and ! preg_match('/^http(s)?:/', $url))
-		{
-			return $this->error('The remore request must begin with http(s).');
-		}
+		$invoke = (preg_match('/^http(s)?:/', $url)) ? 'invokeRemote' : 'invoke';
 
 		// Method to call.
 		$method = $this->option('request');
@@ -94,8 +88,7 @@ class ApiCallCommand extends Command {
 	{
 		return array(
 			array('request', 'X', InputOption::VALUE_OPTIONAL, 'Specifies a custom request method.', 'GET'),
-			array('data', 'd', InputOption::VALUE_OPTIONAL, 'Sends the specified data in a POST request to the HTTP server.', array()),
-			array('remote', 'r', InputOption::VALUE_NONE, 'Remote enable.', null)
+			array('data', 'd', InputOption::VALUE_OPTIONAL, 'Sends the specified data in a POST request to the HTTP server.', array())
 		);
 	}
 
