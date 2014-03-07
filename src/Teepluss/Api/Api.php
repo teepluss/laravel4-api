@@ -285,7 +285,7 @@ class Api {
         }
         catch (NotFoundHttpException $e)
         {
-            sd($e->getMessage());
+            var_dump($e->getMessage());
         }
     }
 
