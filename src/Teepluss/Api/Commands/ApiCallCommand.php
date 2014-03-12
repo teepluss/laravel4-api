@@ -64,7 +64,14 @@ class ApiCallCommand extends Command {
 			parse_str($parameters, $parameters);
 		}
 
-		print $this->api->$invoke($url, $method, $parameters);
+		$response = $this->api->$invoke($url, $method, $parameters);
+
+		if (is_array($response) or is_object($response))
+		{
+			die(var_dump($response));
+		}
+
+		echo $response;
 	}
 
 	/**
