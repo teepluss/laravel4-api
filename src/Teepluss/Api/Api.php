@@ -335,6 +335,7 @@ class Api {
 
             $parameters = is_array(current($parameters)) ?: array();
 
+
             if (preg_match('/^http(s)?/', $uri))
             {
                 return $this->invokeRemote($uri, $method, $parameters);
