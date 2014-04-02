@@ -208,7 +208,7 @@ class Api {
         // Header response.
         $header = ($this->config['httpResponse']) ? $code : 200;
 
-        return Response::json($response, $header);
+        return Response::make($response, $header);
     }
 
     /**
