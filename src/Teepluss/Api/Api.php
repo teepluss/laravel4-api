@@ -331,7 +331,7 @@ class Api {
     {
         if (in_array($method, array('get', 'post', 'put', 'delete')))
         {
-            $uri = array_shift($parameters);s
+            $uri = array_shift($parameters);
 
             $parameters = current($parameters);
             $parameters = is_array($parameters) ? $parameters : array();
