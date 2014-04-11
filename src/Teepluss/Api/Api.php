@@ -333,7 +333,8 @@ class Api {
         {
             $uri = array_shift($parameters);s
 
-            $parameters = is_array(current($parameters)) ?: array();
+            $parameters = current($parameters);
+            $parameters = is_array($parameters) ? $parameters : array();
 
             if (preg_match('/^http(s)?/', $uri))
             {
