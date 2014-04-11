@@ -331,10 +331,9 @@ class Api {
     {
         if (in_array($method, array('get', 'post', 'put', 'delete')))
         {
-            $uri = array_shift($parameters);
+            $uri = array_shift($parameters);s
 
             $parameters = is_array(current($parameters)) ?: array();
-
 
             if (preg_match('/^http(s)?/', $uri))
             {
