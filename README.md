@@ -1,5 +1,9 @@
 ## Laravel HMVC.
 
+> This package is no longer updated anymore, Now I've splted this package into 2.
+> [HMVC](https://github.com/teepluss/laravel4-hmvc)
+> [RESTful format](https://github.com/teepluss/laravel4-restable)
+
 API is a tool for making internal request (HMVC).
 
 ### Installation
