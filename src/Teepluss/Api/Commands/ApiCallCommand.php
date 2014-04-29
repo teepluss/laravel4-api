@@ -1,5 +1,6 @@
 <?php namespace Teepluss\Api\Commands;
 
+use Illuminate\View\View;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -66,12 +67,17 @@ class ApiCallCommand extends Command {
 
 		$response = $this->api->$invoke($url, $method, $parameters);
 
-		if (is_array($response) or is_object($response))
+		if ($response instanceof View)
 		{
-			die(var_dump($response));
+			return $this->info($response->render());
 		}
 
-		echo $response;
+		if (is_array($response) or is_object($response))
+		{
+			return $this->info(var_export($response, true));
+		}
+
+		return $this->info($response);
 	}
 
 	/**
