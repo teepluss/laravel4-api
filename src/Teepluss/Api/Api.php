@@ -222,6 +222,27 @@ class Api {
     }
 
     /**
+    * Configure remote client for http request.
+    *
+    * @param array $configuration
+    *   
+    * array 
+    *(
+    *   'verify' => false,                               //allows self signed certificates
+    *   'verify', '/path/to/cacert.pem',                 //custom certificate 
+    *   'headers/X-Foo', 'Bar',                          //custom header
+    *   'auth', array('username', 'password', 'Digest'), //custom authentication
+    *)
+    */
+    public function configureRemoteClient($configurations)
+    {              
+        foreach ($configurations as $option => $value)
+        {   
+            call_user_func_array(array($this->remoteClient, 'setDefaultOption'), array($option, $value));           
+        }
+    }
+
+    /**
      * Call internal URI with parameters.
      *
      * @param  string $uri
