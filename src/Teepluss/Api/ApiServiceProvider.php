@@ -23,8 +23,7 @@ class ApiServiceProvider extends ServiceProvider {
         $this->package('teepluss/api');
 
         // Auto create app alias with boot method.
-        $loader = AliasLoader::getInstance();
-        $loader->alias('API', 'Teepluss\Api\Facades\API');
+        $loader = AliasLoader::getInstance()->alias('API', 'Teepluss\Api\Facades\API');
     }
 
     /**
@@ -53,7 +52,7 @@ class ApiServiceProvider extends ServiceProvider {
      */
     public function registerApi()
     {
-        $this->app['api'] = $this->app->share(function($app)
+        $this->app['api.request'] = $this->app->share(function($app)
         {
             $remoteClient = new Client();
 
@@ -81,7 +80,7 @@ class ApiServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array('api');
+        return array('api.request', 'api.call');
     }
 
 }

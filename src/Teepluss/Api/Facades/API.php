@@ -12,6 +12,6 @@ class API extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'api'; }
+    protected static function getFacadeAccessor() { return 'api.request'; }
 
 }
