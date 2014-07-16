@@ -69,7 +69,7 @@ class ApiServiceProvider extends ServiceProvider {
     {
         $this->app['api.call'] = $this->app->share(function($app)
         {
-            return new Commands\ApiCallCommand($app['api']);
+            return new Commands\ApiCallCommand($app['api.request']);
         });
     }
 
