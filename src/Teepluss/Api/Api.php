@@ -280,6 +280,7 @@ class Api {
             // Restore the request input and route back to the original state.
             $this->request->replace($originalInput);
 
+
             // This method have been removed from Laravel.
             //$this->router->setCurrentRoute($originalRoute);
 
