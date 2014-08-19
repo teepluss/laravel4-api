@@ -12,6 +12,6 @@ return array(
     |
     */
 
-    'httpResponse' => false
-
+    'httpResponse' => false,
+    'removeEmptyData' => true
 );
