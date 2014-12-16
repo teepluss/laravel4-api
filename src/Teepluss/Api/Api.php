@@ -200,7 +200,7 @@ class Api {
             });
 
             // Remove empty data.
-            if (empty($response['data']))
+            if ($this->config['removeEmptyData'] && empty($response['data']))
             {
                 unset($response['data']);
             }
