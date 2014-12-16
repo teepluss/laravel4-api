@@ -13,5 +13,16 @@ return array(
     */
 
     'httpResponse' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove empty data.
+    |--------------------------------------------------------------------------
+    |
+    | Unset the node when data is empty.
+    |
+    */
+
     'removeEmptyData' => true
+
 );
